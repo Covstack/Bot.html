@@ -1,0 +1,137 @@
+<html><head><base href="/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purchase Bot with Gift Card</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+  }
+  .container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 90%;
+  }
+  h1 {
+    color: #4a4a4a;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  input, textarea {
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  button {
+    background-color: #6e8efb;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #5c7cfa;
+  }
+  .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .instructions {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Purchase Bot with Gift Card</h1>
+    <p class="price">Price: $30</p>
+    <p class="instructions">Please send a $30 gift card to: covenanttk7@gmail.com</p>
+    <p class="instructions">After sending the gift card, fill out this form to complete your purchase.</p>
+    
+    <form id="purchaseForm">
+      <label for="giftCardCode">Gift Card Code:</label>
+      <input type="text" id="giftCardCode" name="giftCardCode" required>
+      
+      <label for="email">Your Email:</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="confirmEmail">Confirm Email:</label>
+      <input type="email" id="confirmEmail" name="confirmEmail" required>
+      
+      <button type="submit">Complete Purchase</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('purchaseForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const giftCardCode = document.getElementById('giftCardCode').value;
+      const email = document.getElementById('email').value;
+      const confirmEmail = document.getElementById('confirmEmail').value;
+      
+      if (email !== confirmEmail) {
+        alert('Emails do not match. Please check and try again.');
+        return;
+      }
+      
+      // Here you would typically send this data to your server for processing
+      // For this example, we'll just simulate a successful purchase
+      
+      // Simulating an API call
+      fetch('/api/process-purchase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          giftCardCode: giftCardCode,
+          email: email,
+          amount: 30
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Purchase successful! Check your email for further instructions.');
+          window.location.href = '/thank-you?bot=tradingbot';
+        } else {
+          alert('There was an error processing your purchase. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+      });
+    });
+  </script>
+</body>
+</html>
